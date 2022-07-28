@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Here is your search result</title>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script>
+        function cb(selection){
+            $.getJSON({
+                url: "/callback", data: {'data': selection }, success: function (result) {
+                    Plotly.newPlot('chart', result, {});;
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+{% if result %}
+    <u1>
+        {% for res in result %}
+            <li>{{res['url']}}  </li>
+        {% endfor %}
+    </u1>
+
+{% endif %}
+<div id="chart" class="chart"></div>
+</body>
+
+<script>
+  d = {{graphJSON | safe}};
+  Plotly.newPlot('chart', d,{});
+</script>
+
+<ul>
+<li><a href='/logout'>Logout</a></li>
+<li><a href='/'>Login again to search!</a></li>
+</ul>
+
+</html>
